@@ -1,0 +1,62 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>
+          {% block title %}
+        Sign in
+        {%  endblock %}
+    </title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Favicons -->
+
+<meta name="theme-color" content="#563d7c">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href={% static "signin.css"%} rel="stylesheet">
+  </head>
+    {% block body %}
+  <body class="text-center">
+
+    <form class="form-signin" method="post" action="/registration/">
+
+   <h1 class="h3 mb-3 font-weight-normal">Please Register</h1>
+          <label for="inputUser" class="sr-only">User Name(Optional)</label>
+  <input type="text" name="usr_input" id="inputUser" class="form-control" placeholder="Optional User Name"  autofocus>
+
+  <label for="inputEmail" class="sr-only">Email address</label>
+  <input type="text" name="email_input" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" name="passwd_input" id="inputPassword" class="form-control" placeholder="Password" required>
+<a href="/login/">Log In</a>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+
+          {% csrf_token %}
+</form>
+                  {% endblock %}
+</body>
+</html>

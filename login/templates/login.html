@@ -1,0 +1,20 @@
+{% extends 'reg.html' %}
+{% block title %}
+    Log in
+{%  endblock %}
+  {% block body %}
+        <body class="text-center">
+    <form class="form-signin" method="post" action="/login/">
+
+   <h1 class="h3 mb-3 font-weight-normal">Log in</h1>
+          <label for="inputUser" class="sr-only">User Name/Email Address</label>
+  <input type="text" name="usr_input" id="inputUser" class="form-control" placeholder="User Name/Email" required autofocus>
+  <label for="inputPassword" class="sr-only">Password</label>
+  <input type="password" name="passwd_input" id="inputPassword" class="form-control" placeholder="Password" required>
+    <a href="/registration/">Register</a>
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+  <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+                {% csrf_token %}
+</form>
+                {% endblock %}
