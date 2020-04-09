@@ -90,6 +90,8 @@ def reg_confirm_view(request,reg_id=0):
     return HttpResponse(str(reg_id))
 
 def login_view(request):
+    if request.session.get('is_login') == True:
+            return redirect('/')
 
     if request.method == "POST":
         print(request.POST)
