@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import login.views as views
+from django.views.static import serve
+from mailsys import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('registration/', views.registration_view),
@@ -26,3 +29,4 @@ urlpatterns = [
     path('logout/', views.logout),
     #path('confirmation/<int:conf_id>/', views.registration_view),
 ]
+urlpatterns += staticfiles_urlpatterns()

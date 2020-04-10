@@ -3,3 +3,4 @@ import login.models as models
 # Register your models here.
 admin.site.register(models.User)
 admin.site.register(models.UserTicket)
+admin.site.register(models.LogInActivity)

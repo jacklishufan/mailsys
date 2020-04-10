@@ -14,10 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
 from django.urls import path, include
+from django.views import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from mailsys import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('login.urls'))
+    path('', include('login.urls')),
+    re_path(r'^static/(?P<path>.*)$', static.serve, {'document_root': settings.STATIC_ROOT }, name='static'),
+
 ]
+
+urlpatterns += staticfiles_urlpatterns()

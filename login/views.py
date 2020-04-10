@@ -5,12 +5,13 @@ from django.core.mail import send_mail
 from django.conf import settings
 import hashlib
 import random
+from django.contrib.auth.hashers import make_password, check_password
 
 # Create your views here.
 def registration_view(request):
     #return HttpResponse("HELLOW WORD")
     if request.method == "POST":
-        print(request.POST)
+        #print(request.POST)
         data = request.POST
         usr_name = data['usr_input']
         tgt_mail = data['email_input']
@@ -19,7 +20,7 @@ def registration_view(request):
         new_ticket = UserTicket()
         new_ticket.name = data['usr_input']
         new_ticket.email = tgt_mail
-        new_ticket.passwd = data['passwd_input']
+        new_ticket.passwd = make_password(data['passwd_input'])
         cid = random.randint(1000000,9999999)
         while UserTicket.objects.filter(hash_code=cid,expired=False).exists():
             cid = random.randint(1000000, 9999999)
@@ -31,7 +32,7 @@ def registration_view(request):
                     "这是您的链接："+content,
                   settings.DEFAULT_FROM_EMAIL,
                   [tgt_mail])
-        print(res)
+        #print(res)
 
         data = {
             "header": "Success!",
@@ -46,7 +47,6 @@ def registration_view(request):
 def reg_confirm_view(request,reg_id=0):
     if UserTicket.objects.filter(hash_code=reg_id,expired=False).exists():
         confirmed_ticket = UserTicket.objects.get(hash_code=reg_id,expired=False)
-
         new_user = User()
         if User.objects.filter(email=confirmed_ticket.email).exists():
             data = {
@@ -94,7 +94,7 @@ def login_view(request):
             return redirect('/')
 
     if request.method == "POST":
-        print(request.POST)
+        #print(request.POST)
         data = request.POST
         username = data['usr_input']
         passwd = data['passwd_input']
@@ -151,9 +151,8 @@ def validate(username,passwd,ip):
         this_usr = User.objects.get(email=username)
         acc_log = LogInActivity(user=this_usr)
         if this_usr.locked:
-            print("LOCKED")
             return 0
-        if str(this_usr.passwd) == passwd:
+        if check_password(passwd,this_usr.passwd):
             acc_log.success = True
             acc_log.save()
             return this_usr
@@ -164,10 +163,9 @@ def validate(username,passwd,ip):
         this_usr = User.objects.get(name=username)
         acc_log = LogInActivity(user=this_usr)
         if this_usr.locked:
-            print("LOCKED")
+            #print("LOCKED")
             return 0
-        print(str(this_usr.passwd)==passwd)
-        if str(this_usr.passwd) == passwd:
+        if check_password(passwd,this_usr.passwd):
             acc_log.success = True
             acc_log.save()
             return this_usr
